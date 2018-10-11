@@ -107,24 +107,24 @@ public class AdapterModuleImp extends AbstractAdapterModule{
 		if(!listFileWithoutZipSrc.isEmpty()){
 			//Upload file to ftps without zip
 		upload.UploadFTPS(audit, log, ftps, paramConnection.getTargetPath(), listFileWithoutZipSrc,paramConnection );
-		}else if(!listFileToZipSrc.isEmpty()){
-		if(IsDirectory == true){
-			try {
-				audit.addLog(AuditLogStatus.SUCCESS,  "Access to zip module");
-				zipfileWithPassword.compressWithPassword(audit, paramConnection, log, paramConnection.getSrcPath(), paramConnection.getTargetPath(),paramConnection.getPasswordToZipfile(),paramConnection.getFormatFileName(),ftps,listFileToZipSrc);
-				audit.addLog(AuditLogStatus.SUCCESS,"Transfer done.");
-			} catch (Exception e) {
-				audit.addLog(AuditLogStatus.ERROR,  e.getMessage());
+		}if(!listFileToZipSrc.isEmpty()){
+			if(IsDirectory == true){
+				try {
+					audit.addLog(AuditLogStatus.SUCCESS,  "Access to zip module");
+					zipfileWithPassword.compressWithPassword(audit, paramConnection, log, paramConnection.getSrcPath(), paramConnection.getTargetPath(),paramConnection.getPasswordToZipfile(),paramConnection.getFormatFileName(),ftps,listFileToZipSrc);
+					audit.addLog(AuditLogStatus.SUCCESS,"Transfer done.");
+				} catch (Exception e) {
+					audit.addLog(AuditLogStatus.ERROR,  e.getMessage());
+					connectionFTPS.LogoutFTPS(ftps, audit, log);
+					throw new ModuleException(e.getMessage(), e);
+				}finally{
+					connectionFTPS.LogoutFTPS(ftps, audit, log);
+				}
+			}else{
+				audit.addLog(AuditLogStatus.ERROR,  "Error Please check fuction create directory!!");
 				connectionFTPS.LogoutFTPS(ftps, audit, log);
-				throw new ModuleException(e.getMessage(), e);
-			}finally{
-				connectionFTPS.LogoutFTPS(ftps, audit, log);
+				throw new ModuleException("Error Please check fuction create directory!!");
 			}
-		}else{
-			audit.addLog(AuditLogStatus.ERROR,  "Error Please check fuction create directory!!");
-			connectionFTPS.LogoutFTPS(ftps, audit, log);
-			throw new ModuleException("Error Please check fuction create directory!!");
-		}
 	 }else{
 		 connectionFTPS.LogoutFTPS(ftps, audit, log);
 		audit.addLog(AuditLogStatus.WARNING,  "Don't have file in folder");
