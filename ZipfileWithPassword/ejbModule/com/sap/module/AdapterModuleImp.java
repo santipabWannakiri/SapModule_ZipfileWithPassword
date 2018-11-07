@@ -71,6 +71,8 @@ public class AdapterModuleImp extends AbstractAdapterModule{
 		paramConnection.setTarTimestamp(this.param.getBoolParameter("tarTimestamp", "N", true));
 		paramConnection.setTarPrefix(this.param.getParameter("tarPrefix", "", true));
 		paramConnection.setTarSuffix(this.param.getParameter("tarSuffix", "", true));
+		paramConnection.setSrcDirLog(this.param.getParameter("SrcDirLog", "", true));
+		paramConnection.setFileNameSrcLog(this.param.getParameter("FileNameSrcLog", "BackupLog", true));
 
 //		audit.addLog(AuditLogStatus.SUCCESS,"== Adapter mode == \n Archive mode : " + paramConnection.getArchive() + "\n Delete mode : " + paramConnection.getDelete() + "\n appendLog mode : " + paramConnection.getAppendLog());
 //		log.add("== Adapter mode == \n Archive mode : " + paramConnection.getArchive() + "\n Delete mode : " + paramConnection.getDelete() + "\n appendLog mode : " + paramConnection.getAppendLog());
@@ -135,7 +137,6 @@ public class AdapterModuleImp extends AbstractAdapterModule{
 	@Override
 	protected void WriteLog(Logger log,XMLPayload payload) throws ModuleException {
 		audit.addLog(AuditLogStatus.WARNING  , "log size"+ log.getLogs().size());
-		log.add( "write log size"+ log.getLogs().size());
 		if (paramConnection.getAppendLog() == true) {
 			try {
 				String strOutput = new String();

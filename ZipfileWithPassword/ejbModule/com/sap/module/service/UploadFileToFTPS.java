@@ -44,14 +44,16 @@ public class UploadFileToFTPS {
 		InputStream input = null;
 		audit.addLog(AuditLogStatus.SUCCESS, "Upload file without zip");
 		
+		log.add(" --------- List file without zip ---------"); //write log list file move to destination
 		try {
 			for (int i = 0; i < listFileWithoutZipSrc.size(); i++) {
-				log.add(listFileWithoutZipSrc.get(i).getName() + " Move to destination"); //write log list file move to destination
+				log.add(listFileWithoutZipSrc.get(i).getName()); //write log list file move to destination
 				String Soure_preFix_sufFixFile = prefix_suffix_time.Soure_preFix_sufFix_timeStamp(listFileWithoutZipSrc.get(i).getName(), audit, paramConnection, log,paramConnection.getFormatTimeStamp());
-				String Target_preFix_sufFixFile = prefix_suffix_time.Target_preFix_sufFix_timeStamp(listFileWithoutZipSrc.get(i).getName(), audit, paramConnection, log,paramConnection.getFormatTimeStamp());
+				//String Target_preFix_sufFixFile = prefix_suffix_time.Target_preFix_sufFix_timeStamp(listFileWithoutZipSrc.get(i).getName(), audit, paramConnection, log,paramConnection.getFormatTimeStamp());
 				
 				input = new FileInputStream(new File(listFileWithoutZipSrc.get(i).getAbsolutePath()));
-				ftps.storeFile(destinationPath+ "/"+Target_preFix_sufFixFile, input);
+				//ftps.storeFile(destinationPath+ "/"+Target_preFix_sufFixFile, input);
+				ftps.storeFile(destinationPath+ "/"+listFileWithoutZipSrc.get(i).getName(), input);
 				
 				File archivePath = new File(paramConnection.getSrcPath()+ "/archive/"+ Soure_preFix_sufFixFile);
 				File srcPath = new File(listFileWithoutZipSrc.get(i).getAbsolutePath());
